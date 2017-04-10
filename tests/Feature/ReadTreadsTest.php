@@ -5,7 +5,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class TreadsTest extends TestCase {
+class ReadTreadsTest extends TestCase {
 
     use DatabaseMigrations;
 
@@ -36,5 +36,17 @@ class TreadsTest extends TestCase {
                 ->assertSee($reply->body);
     }
 
+    /** @test */
+    public function a_user_cam_fiter_tread_according_to_a_channel() {
+        $channel = create('App\Channel');
+        
+        $treadInChannel = create('App\Tread', ['channel_id' => $channel->id]);
+        $treadNotChannel = create('App\Tread');
+        
+        
+        $this->get('/treads/' . $channel->slug)
+                ->assertSee($treadInChannel->title)
+                ->assertDontSee($treadNotChannel->title);
+    }
 }
 

@@ -18,6 +18,17 @@ class TreadTest extends TestCase {
     }
 
     /** @test */
+    public function a_tread_can_make_a_string() {
+        
+        $tread = create('App\Tread');
+        
+        $this->assertEquals(
+                "/treads/{$tread->channel->slug}/{$tread->id}",
+                        $tread->path()
+                );
+        
+    }
+    /** @test */
     public function a_thread_has_replies() {
         $this->assertInstanceOf(
                 '\Illuminate\Database\Eloquent\Collection', $this->tread->replies
@@ -37,5 +48,12 @@ class TreadTest extends TestCase {
         ]);
         
         $this->assertCount(1, $this->tread->replies);
+    }
+    
+    /** @test */
+    public function a_tread_belongs_to_a_channel() {
+        
+        $this->assertInstanceOf('App\Channel', $this->tread->channel);
+        
     }
 }

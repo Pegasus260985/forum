@@ -37,9 +37,14 @@ class RepliesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Tread $tread)
+    public function store($channelId, Tread $tread)
     {
         //
+        
+        $this->validate(request(), [
+           'body'  => 'required'
+        ]);
+        
         $tread->addReply([
            'body'  => request('body'),
             'user_id' => auth()->id()
@@ -74,7 +79,7 @@ class RepliesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Reply  $reply
+     * @param  \App\Reply  $rephp ply
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Reply $reply)

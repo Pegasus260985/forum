@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Channel;
 use App\Tread;
 use Illuminate\Http\Request;
 
 class TreadsController extends Controller {
-    
-    
+
     public function __construct() {
-        $this->middleware('auth')->only('store');
+        $this->middleware('auth')->except(['index', 'show']);
     }
 
     /**
@@ -17,8 +17,17 @@ class TreadsController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
-        $treads = Tread::latest()->get();
+    public function index(Channel $channel) {
+
+        if ($channel->exists) {
+
+            $treads = $channel->treads()->latest()->get();
+        } else {
+            $treads = Tread::latest()->get();
+        }
+
+
+
 
         return view('treads.index', compact('treads'));
     }
@@ -29,7 +38,7 @@ class TreadsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        //
+        return view('treads.create');
     }
 
     /**
@@ -41,13 +50,20 @@ class TreadsController extends Controller {
     public function store(Request $request) {
         //
 
-       $tread =  Tread::create([
-            'user_id' => auth()->id(),
-            'title' => request('title'),
-            'body' => request('body'),
+        $this->validate($request, [
+            'title' => 'required',
+            'body' => 'required',
+            'channel_id' => 'required|exists:channels,id'
         ]);
-       
-       return redirect($tread->path());
+
+        $tread = Tread::create([
+                    'user_id' => auth()->id(),
+                    'channel_id' => request('channel_id'),
+                    'title' => request('title'),
+                    'body' => request('body'),
+        ]);
+
+        return redirect($tread->path());
     }
 
     /**
@@ -56,7 +72,7 @@ class TreadsController extends Controller {
      * @param  \App\Tread  $tread
      * @return \Illuminate\Http\Response
      */
-    public function show(Tread $tread) {
+    public function show($channelId, Tread $tread) {
         return view('treads.show', compact('tread'));
     }
 
