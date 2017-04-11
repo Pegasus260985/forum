@@ -19,15 +19,8 @@ class TreadsController extends Controller {
      */
     public function index(Channel $channel) {
 
-        if ($channel->exists) {
 
-            $treads = $channel->treads()->latest()->get();
-        } else {
-            $treads = Tread::latest()->get();
-        }
-
-
-
+        $treads = $this->getTreads($channel);
 
         return view('treads.index', compact('treads'));
     }
@@ -105,6 +98,32 @@ class TreadsController extends Controller {
      */
     public function destroy(Tread $tread) {
         //
+    }
+
+    /**
+     * @param Channel $channel
+     * @return mixed
+     */
+    protected function getTreads(Channel $channel)
+    {
+        if ($channel->exists) {
+            //Treads by channel
+            $treads = $channel->treads()->latest();
+        } else {
+            //All treads
+            $treads = Tread::latest();
+        }
+
+        //If request('by'), we ahould filter by the user name
+        if ($username = request('by')) {
+
+            $user = \App\User::where('name', $username)->firstOrFail();
+
+            $treads->where('user_id', $user->id);
+        }
+
+        $treads = $treads->get();
+        return $treads;
     }
 
 }

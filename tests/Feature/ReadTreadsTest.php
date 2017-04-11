@@ -48,5 +48,20 @@ class ReadTreadsTest extends TestCase {
                 ->assertSee($treadInChannel->title)
                 ->assertDontSee($treadNotChannel->title);
     }
+    
+    /** @test */
+    public function a_user_can_filter_treads_by_any_username() {
+        
+        $this->signIn(create('App\User', ['name' => 'JaimeCastrillo']));
+        
+        $treadByJaime = create('App\Tread' , ['user_id' => auth()->id()]);
+        
+        $treadNotByJaime  = create('App\Tread');
+        
+        $this->get('treads?by=JaimeCastrillo')
+                ->assertSee($treadByJaime->title)
+                ->assertDontSee($treadNotByJaime->title);
+        
+    }
 }
 

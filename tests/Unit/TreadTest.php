@@ -36,7 +36,7 @@ class TreadTest extends TestCase {
     }
     
     /** @test */
-    public function a_tread_has_a_creator() {
+    public function a_tread_belongs_to_a_creator() {
         $this->assertInstanceOf('App\User', $this->tread->owner);
     }
 

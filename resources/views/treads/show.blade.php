@@ -38,19 +38,35 @@
 
                 {{csrf_field()}}
                 <div class="form-group">
-                    <textarea name="body" id="body" rows="5" class="form-control" placeholder="Have something to say?"></textarea>
+                    <textarea name="body" id="body" rows="5" class="form-control" 
+                              placeholder="Have something to say?" >{{ old('body') }}</textarea>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-default">Post</button>
                 </div>
 
-                <button type="submit" class="btn btn-default">Post</button>
+
+                @if(count($errors) > 0)
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach($errors->all() as $message)
+                        <li>{{ $message }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
+
+
+
             </form>
         </div>
     </div>
-    
-    
+
+
     @else
 
     <p class="text-center">Please <a href="{{route('login')}}">sign in</a> to participate in this discussion</p>
-    
+
     @endif
 </div>
 @endsection
