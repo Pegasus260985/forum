@@ -114,7 +114,7 @@ class TreadsController extends Controller {
             $treads = Tread::latest();
         }
 
-        //If request('by'), we ahould filter by the user name
+        //If request('by'), we Should filter by the user name
         if ($username = request('by')) {
 
             $user = \App\User::where('name', $username)->firstOrFail();

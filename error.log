@@ -1,0 +1,11 @@
+[Thu Apr 13 15:01:55.059815 2017] [authz_core:error] [pid 7813] [client 192.168.38.104:53878] AH01630: client denied by server configuration: /home/jaime/forum/
+[Thu Apr 13 15:02:54.305846 2017] [authz_core:error] [pid 7815] [client 192.168.38.104:53886] AH01630: client denied by server configuration: /home/jaime/forum/
+[Thu Apr 13 15:02:54.429423 2017] [authz_core:error] [pid 7815] [client 192.168.38.104:53886] AH01630: client denied by server configuration: /home/jaime/forum/favicon.ico, referer: http://forum.dev/
+[Thu Apr 13 15:02:56.535982 2017] [authz_core:error] [pid 7815] [client 192.168.38.104:53886] AH01630: client denied by server configuration: /home/jaime/forum/
+[Thu Apr 13 15:02:56.673765 2017] [authz_core:error] [pid 7815] [client 192.168.38.104:53886] AH01630: client denied by server configuration: /home/jaime/forum/favicon.ico, referer: http://forum.dev/
+[Thu Apr 13 15:02:58.685710 2017] [authz_core:error] [pid 7815] [client 192.168.38.104:53886] AH01630: client denied by server configuration: /home/jaime/forum/
+[Thu Apr 13 15:02:58.840099 2017] [authz_core:error] [pid 7815] [client 192.168.38.104:53886] AH01630: client denied by server configuration: /home/jaime/forum/favicon.ico, referer: http://forum.dev/
+[Thu Apr 13 15:05:48.759760 2017] [authz_core:error] [pid 8098] [client 192.168.38.104:53900] AH01630: client denied by server configuration: /home/jaime/forum/public/
+[Thu Apr 13 15:05:48.914882 2017] [authz_core:error] [pid 8098] [client 192.168.38.104:53900] AH01630: client denied by server configuration: /home/jaime/forum/public/favicon.ico, referer: http://forum.dev/
+[Thu Apr 13 15:05:50.371422 2017] [authz_core:error] [pid 8098] [client 192.168.38.104:53900] AH01630: client denied by server configuration: /home/jaime/forum/public/
+[Thu Apr 13 15:05:50.496430 2017] [authz_core:error] [pid 8098] [client 192.168.38.104:53900] AH01630: client denied by server configuration: /home/jaime/forum/public/favicon.ico, referer: http://forum.dev/
