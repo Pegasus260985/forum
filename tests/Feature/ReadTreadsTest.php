@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use function array_column;
+use function create;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
@@ -62,6 +64,29 @@ class ReadTreadsTest extends TestCase {
                 ->assertSee($treadByJaime->title)
                 ->assertDontSee($treadNotByJaime->title);
         
+    }
+    
+    /** @test */
+    public function a_user_can_filter_treads_by_popularity()
+
+    {
+        //Given three treads
+        //2 replies, 3 replies no reply
+        $treadsWithTwoReplies = create('App\Tread');
+        create('App\Reply', ['tread_id' => $treadsWithTwoReplies->id], 2);
+
+
+        $treadsWithThreeReplies = create('App\Tread');
+        create('App\Reply', ['tread_id' => $treadsWithThreeReplies->id], 3);
+
+        $treadsWithNoReplies = $this->tread;
+
+        // when I filter all treads by popularity
+        $response = $this->getJson('treads?popular=1')->json();
+
+        //Then they should be returned from most replies to least
+        $this->assertEquals([3,2,0], array_column($response, 'replies_count'));
+
     }
 }
 

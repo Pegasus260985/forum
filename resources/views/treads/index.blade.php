@@ -10,11 +10,20 @@
                     <div class="panel-body">
                         @foreach ($treads as $tread)
                             <article>
-                                <h4>
-                                    <a href="{{ $tread->path() }}">
-                                        {{ $tread->title }}
-                                    </a>
-                                </h4>
+                                <div class="level">
+                                    <h4 class="flex">
+                                        <a href="{{ $tread->path() }}">
+                                            {{ $tread->title }}
+                                        </a>
+                                    </h4>
+                                    <strong>
+                                        <a href="{{ $tread->path() }}">
+                                            {{ $tread->replies_count }}
+                                            {{ str_plural('comment', $tread->replies_count) }}
+                                        </a>
+                                    </strong>
+
+                                </div>
                                 <div class="body">{{ $tread->body }}</div>
                             </article>
 

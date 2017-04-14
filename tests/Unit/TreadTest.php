@@ -56,4 +56,5 @@ class TreadTest extends TestCase {
         $this->assertInstanceOf('App\Channel', $this->tread->channel);
         
     }
+
 }

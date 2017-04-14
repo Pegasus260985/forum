@@ -3,11 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Channel;
+use App\Filters\TreadsFilters;
 use App\Tread;
+use function dd;
 use Illuminate\Http\Request;
 
 class TreadsController extends Controller {
 
+    /**
+     * TreadsController constructor.
+     */
     public function __construct() {
         $this->middleware('auth')->except(['index', 'show']);
     }
@@ -15,12 +20,17 @@ class TreadsController extends Controller {
     /**
      * Display a listing of the resource.
      *
+     * @param Channel $channel
+     * @param TreadsFilters $filters
      * @return \Illuminate\Http\Response
      */
-    public function index(Channel $channel) {
+    public function index(Channel $channel, TreadsFilters $filters) {
 
+        $treads = $this->getTreads($channel, $filters);
 
-        $treads = $this->getTreads($channel);
+       if (request()->wantsJson()){
+            return $treads;
+        }
 
         return view('treads.index', compact('treads'));
     }
@@ -62,11 +72,17 @@ class TreadsController extends Controller {
     /**
      * Display the specified resource.
      *
-     * @param  \App\Tread  $tread
+     * @param  string     $channelId
+     * @param  \App\Tread $tread
      * @return \Illuminate\Http\Response
      */
     public function show($channelId, Tread $tread) {
-        return view('treads.show', compact('tread'));
+
+
+        return view('treads.show', [
+            'tread' => $tread,
+            'replies' => $tread->replies()->paginate(25)
+        ]);
     }
 
     /**
@@ -101,29 +117,22 @@ class TreadsController extends Controller {
     }
 
     /**
-     * @param Channel $channel
+     * @param Channel       $channel
+     * @param TreadsFilters $filters
      * @return mixed
      */
-    protected function getTreads(Channel $channel)
+    protected function getTreads(Channel $channel, TreadsFilters $filters)
     {
+        $treads = Tread::latest()->filter($filters);
+
         if ($channel->exists) {
-            //Treads by channel
-            $treads = $channel->treads()->latest();
-        } else {
-            //All treads
-            $treads = Tread::latest();
+            $treads->where('channel_id', $channel->id);
         }
 
-        //If request('by'), we Should filter by the user name
-        if ($username = request('by')) {
-
-            $user = \App\User::where('name', $username)->firstOrFail();
-
-            $treads->where('user_id', $user->id);
-        }
-
+//        dd($treads->toSql());
         $treads = $treads->get();
         return $treads;
     }
+
 
 }
